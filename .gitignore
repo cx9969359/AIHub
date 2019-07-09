@@ -1,0 +1,15 @@
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.sln
+*.sw*
+.pytest_cache/*
+.cache/*
+.idea/*
+.history/*
+.vscode/*
+*/__pycache__/*
+*.pyc
+*.exe
