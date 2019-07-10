@@ -4,3 +4,5 @@ class Config:
 
     # 每次请求结束后都提交数据库变动
     SQLALCHEMY_TRACK_MODIFICATIONS = True
+
+    DEBUG  = True

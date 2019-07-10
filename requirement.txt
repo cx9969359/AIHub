@@ -1,0 +1,3 @@
+flask-bootstrap
+flask_sqlalchemy
+mysql-python
