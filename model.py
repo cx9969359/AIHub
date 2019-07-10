@@ -1,1 +1,1 @@
-from api import db
+from core import db
