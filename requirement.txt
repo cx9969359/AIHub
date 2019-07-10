@@ -1,3 +1,7 @@
 flask-bootstrap
 flask_sqlalchemy
 mysql-python
+flask-mysql
+Flask-Migrate
+Flask-Script
+Flask-MySQLdb
