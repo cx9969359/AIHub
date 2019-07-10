@@ -10,6 +10,6 @@ api = Namespace('index')
 class Index(Resource):
     def get(self):
         user = UserModel(name='nice')
-        db.session.add(user)
-        db.session.commit()
+        # db.session.add(user)
+        # db.session.commit()
         return 'nice'
