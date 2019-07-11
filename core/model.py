@@ -17,6 +17,9 @@ class ClientModel(db.Model):
     uuid = db.Column(db.String(64), nullable=False)
     # 初始化时的客户端名称，必填
     name = db.Column(db.String(64), unique=True, nullable=False)
+    # 操作系统用户名密码
+    os_username = db.Column(db.String(64))
+    os_password = db.Column(db.String(64))
     # 公网IP
     public_IP = db.Column(db.String(32))
     # 内网IP

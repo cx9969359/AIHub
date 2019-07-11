@@ -6,6 +6,7 @@ from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 
 from core.model import ClientModel
 from core.model import db
+from core.service.common_util import check_IP
 from core.service.serialize_obj import serialize
 
 api = Namespace('client')
@@ -14,6 +15,8 @@ init_client = reqparse.RequestParser()
 init_client.add_argument('name', type=str, required=True)
 init_client.add_argument('model_version', type=str, required=True)
 init_client.add_argument('platform_version', type=str, required=True)
+init_client.add_argument('os_username', type=str, required=True)
+init_client.add_argument('os_password', type=str, required=True)
 
 register_client = reqparse.RequestParser()
 register_client.add_argument('uuid', type=str, required=True)
@@ -31,6 +34,9 @@ class InitClient(Resource):
     def post(self):
         args = init_client.parse_args()
         client_name = args.name
+        # 操作系统用户名和密码
+        os_username = args.os_username
+        os_password = args.os_password
         model_version = args.model_version
         platform_version = args.platform_version
 
@@ -38,7 +44,7 @@ class InitClient(Resource):
             msg = 'The name has existed, please entry again!'
             return jsonify({'result': msg, 'status': 400})
         client = ClientModel(name=client_name, uuid=uuid.uuid1(), model_version=model_version,
-                             platform_version=platform_version)
+                             platform_version=platform_version, os_username=os_username, os_password=os_password)
         db.session.add(client)
         db.session.commit()
         return jsonify({'result': 'Create success', 'status': 200})
@@ -57,6 +63,9 @@ class RegisterClient(Resource):
         LAN_IP = args.LAN_IP
         os = args.os
         public_IP = request.remote_addr
+        if not check_IP(LAN_IP):
+            msg = 'The LAN_IP is error, please entry again!'
+            return jsonify({'result': msg, 'status': 400})
         try:
             client = ClientModel.query.filter_by(uuid=uuid).one()
         except NoResultFound:
@@ -69,10 +78,12 @@ class RegisterClient(Resource):
         client.LAN_IP = LAN_IP
         client.public_IP = public_IP
         client.os = os
-        db.session.commit()
+
+        # 生成id_rsa
 
         # TODO 内网穿透并进行ssh_copy_id
-        
+        # 下发id_rsa.pub成功后再将更改提交到数据库
+        db.session.commit()
         return jsonify({'result': '注册成功!', 'status': 200})
 
 

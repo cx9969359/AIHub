@@ -1,16 +1,22 @@
 import rsa
 
 if __name__ == '__main__':
-    (pub_key, private_key) = rsa.newkeys(1024)
-    print(pub_key)
-    print(private_key)
-    pub = pub_key.save_pkcs1()
-    with open('id_rsa.pub', 'wb')as f:
-        f.write(pub)
-
-    private = private_key.save_pkcs1()
-    with open('id_rsa', 'wb') as f:
-        f.write(private)
+    # (pub_key, private_key) = rsa.newkeys(1024)
+    # print(pub_key)
+    # print(private_key)
+    # pub = pub_key.save_pkcs1()
+    # with open('id_rsa.pub', 'wb')as f:
+    #     f.write(pub)
+    #
+    # private = private_key.save_pkcs1()
+    # with open('id_rsa', 'wb') as f:
+    #     f.write(private)
+    import re
+    p = re.compile(r'^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$')
+    if re.match(p, '0.0.0.0'):
+        print(1)
+    else:
+        print(0)
 
     # from urllib.parse import  unquote
     #
