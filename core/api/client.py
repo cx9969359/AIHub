@@ -13,15 +13,15 @@ api = Namespace('client')
 
 init_client = reqparse.RequestParser()
 init_client.add_argument('name', type=str, required=True)
-init_client.add_argument('model_version', type=str, required=True)
-init_client.add_argument('platform_version', type=str, required=True)
+init_client.add_argument('os', type=str, required=True)
 init_client.add_argument('os_username', type=str, required=True)
 init_client.add_argument('os_password', type=str, required=True)
+init_client.add_argument('model_version', type=str, required=True)
+init_client.add_argument('platform_version', type=str, required=True)
 
 register_client = reqparse.RequestParser()
 register_client.add_argument('uuid', type=str, required=True)
 register_client.add_argument('LAN_IP', type=str, required=True)
-register_client.add_argument('os', type=str, required=True)
 
 
 @api.route('/init')
@@ -34,7 +34,8 @@ class InitClient(Resource):
     def post(self):
         args = init_client.parse_args()
         client_name = args.name
-        # 操作系统用户名和密码
+        # 操作系统、用户名及密码
+        os = args.os
         os_username = args.os_username
         os_password = args.os_password
         model_version = args.model_version
@@ -44,7 +45,7 @@ class InitClient(Resource):
             msg = 'The name has existed, please entry again!'
             return jsonify({'result': msg, 'status': 400})
         client = ClientModel(name=client_name, uuid=uuid.uuid1(), model_version=model_version,
-                             platform_version=platform_version, os_username=os_username, os_password=os_password)
+                             platform_version=platform_version, os=os, os_username=os_username, os_password=os_password)
         db.session.add(client)
         db.session.commit()
         return jsonify({'result': 'Create success', 'status': 200})
@@ -61,7 +62,6 @@ class RegisterClient(Resource):
         args = register_client.parse_args()
         uuid = args.uuid
         LAN_IP = args.LAN_IP
-        os = args.os
         public_IP = request.remote_addr
         if not common_util.check_IP(LAN_IP):
             msg = 'The LAN_IP is error, please entry again!'
@@ -77,7 +77,6 @@ class RegisterClient(Resource):
         # 更新客户端的信息
         client.LAN_IP = LAN_IP
         client.public_IP = public_IP
-        client.os = os
 
         # 生成id_rsa
         common_util.generate_id_rsa()
