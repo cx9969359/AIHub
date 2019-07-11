@@ -17,7 +17,7 @@ def check_IP(IP):
         return False
 
 
-def get_id_rsa():
+def generate_id_rsa():
     """
     本地生成公钥,私钥
     :return:

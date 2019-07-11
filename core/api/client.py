@@ -6,7 +6,7 @@ from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 
 from core.model import ClientModel
 from core.model import db
-from core.service.common_util import check_IP
+from core.service import common_util
 from core.service.serialize_obj import serialize
 
 api = Namespace('client')
@@ -63,7 +63,7 @@ class RegisterClient(Resource):
         LAN_IP = args.LAN_IP
         os = args.os
         public_IP = request.remote_addr
-        if not check_IP(LAN_IP):
+        if not common_util.check_IP(LAN_IP):
             msg = 'The LAN_IP is error, please entry again!'
             return jsonify({'result': msg, 'status': 400})
         try:
@@ -80,6 +80,7 @@ class RegisterClient(Resource):
         client.os = os
 
         # 生成id_rsa
+        common_util.generate_id_rsa()
 
         # TODO 内网穿透并进行ssh_copy_id
         # 下发id_rsa.pub成功后再将更改提交到数据库
