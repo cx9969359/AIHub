@@ -96,4 +96,5 @@ class Client(Resource):
         """
         all_client = db.session.query(ClientModel).all()
         all_client = serialize(all_client)
+
         return {'result': 'success', 'client_list': all_client}
