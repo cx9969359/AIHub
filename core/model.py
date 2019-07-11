@@ -11,12 +11,21 @@ class UserModel(db.Model):
 
 class ClientModel(db.Model):
     __tablename__ = 'client'
+
     id = db.Column(db.Integer, primary_key=True)
+    # 初始化时的唯一标识符
+    uuid = db.Column(db.String(64), nullable=False)
+    # 初始化时的客户端名称，必填
+    name = db.Column(db.String(64), unique=True, nullable=False)
+    # 公网IP
+    public_IP = db.Column(db.String(32))
+    # 内网IP
+    LAN_IP = db.Column(db.String(32))
     # 部署平台操作系统
-    os = db.Column(db.String(32), default='')
+    os = db.Column(db.String(32))
     # 计算模型版本
-    model_version = db.Column(db.String(64), default='')
+    model_version = db.Column(db.String(64))
     # CellPlatform版本
-    platform_version = db.Column(db.String(64), default='')
-    # 上线状态(0否1是)
+    platform_version = db.Column(db.String(64))
+    # 运行状态(0否1是)
     status = db.Column(db.Integer)
