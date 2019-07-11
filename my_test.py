@@ -1,28 +1,22 @@
 import rsa
 
 if __name__ == '__main__':
-    # (pub_key, private_key) = rsa.newkeys(1024)
+    # (pub_key, private_key) = rsa.newkeys(2048)
     # print(pub_key)
     # print(private_key)
     # pub = pub_key.save_pkcs1()
-    # with open('id_rsa.pub', 'wb')as f:
+    # import os
+    # if not os.path.isdir('f:/.ssh'):
+    #     os.makedirs('f:/.ssh')
+    # with open('f:/.ssh/id_rsa.pub', 'wb')as f:
     #     f.write(pub)
     #
     # private = private_key.save_pkcs1()
-    # with open('id_rsa', 'wb') as f:
+    # with open('f:/.ssh/id_rsa', 'wb') as f:
     #     f.write(private)
-    import re
-    p = re.compile(r'^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$')
-    if re.match(p, '0.0.0.0'):
-        print(1)
-    else:
-        print(0)
-
-    # from urllib.parse import  unquote
-    #
-    # a = unquote('%E6%96%B0%E5%8A%A0%E5%8D%B7%20(F%3A)%2Ftif_images%2F00517837.mrxs')
-    # print(a)
-
+    import os
+    ssh_path_list = os.listdir('C:/Users/Chang/.ssh')
+    print(ssh_path_list)
     # 使用paramiko
     # ssh = paramiko.SSHClient()
     # print(ssh)
