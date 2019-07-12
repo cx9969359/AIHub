@@ -20,6 +20,8 @@ class ClientModel(db.Model):
     # 操作系统用户名密码
     os_username = db.Column(db.String(64))
     os_password = db.Column(db.String(64))
+    # ssh端口
+    ssh_port = db.Column(db.Integer, nullable=False)
     # 公网IP
     public_IP = db.Column(db.String(32))
     # 内网IP

@@ -1,5 +1,5 @@
 import uuid
-import os
+
 from flask import jsonify, request
 from flask_restplus import Namespace, Resource, reqparse
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
@@ -16,6 +16,7 @@ init_client.add_argument('name', type=str, required=True)
 init_client.add_argument('os', type=str, required=True)
 init_client.add_argument('os_username', type=str, required=True)
 init_client.add_argument('os_password', type=str, required=True)
+init_client.add_argument('ssh_port', type=int, required=True)
 init_client.add_argument('model_version', type=str, required=True)
 init_client.add_argument('platform_version', type=str)
 
@@ -40,13 +41,15 @@ class InitClient(Resource):
         os_password = args.os_password
         model_version = args.model_version
         platform_version = args.platform_version
+        ssh_port = args.ssh_port
 
         if ClientModel.query.filter_by(name=client_name).count() > 0:
             msg = 'The name has existed, please entry again!'
             return jsonify({'result': msg, 'status': 400})
-        _uuid =str(uuid.uuid1())
+        _uuid = str(uuid.uuid1())
         client = ClientModel(name=client_name, uuid=_uuid, model_version=model_version,
-                             platform_version=platform_version, os=os, os_username=os_username, os_password=os_password)
+                             platform_version=platform_version, os=os, os_username=os_username, os_password=os_password,
+                             ssh_port=ssh_port)
         db.session.add(client)
         db.session.commit()
         return jsonify({'result': 'Create success', 'status': 200})
