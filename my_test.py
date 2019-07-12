@@ -14,9 +14,9 @@ if __name__ == '__main__':
     # private = private_key.save_pkcs1()
     # with open('f:/.ssh/id_rsa', 'wb') as f:
     #     f.write(private)
-    import os
-    ssh_path_list = os.listdir('C:/Users/Chang/.ssh')
-    print(ssh_path_list)
+    import uuid
+    a = str(uuid.uuid1())
+    print(a)
     # 使用paramiko
     # ssh = paramiko.SSHClient()
     # print(ssh)

@@ -17,7 +17,7 @@ init_client.add_argument('os', type=str, required=True)
 init_client.add_argument('os_username', type=str, required=True)
 init_client.add_argument('os_password', type=str, required=True)
 init_client.add_argument('model_version', type=str, required=True)
-init_client.add_argument('platform_version', type=str, required=True)
+init_client.add_argument('platform_version', type=str)
 
 register_client = reqparse.RequestParser()
 register_client.add_argument('uuid', type=str, required=True)
@@ -44,7 +44,8 @@ class InitClient(Resource):
         if ClientModel.query.filter_by(name=client_name).count() > 0:
             msg = 'The name has existed, please entry again!'
             return jsonify({'result': msg, 'status': 400})
-        client = ClientModel(name=client_name, uuid=uuid.uuid1(), model_version=model_version,
+        _uuid =str(uuid.uuid1())
+        client = ClientModel(name=client_name, uuid=_uuid, model_version=model_version,
                              platform_version=platform_version, os=os, os_username=os_username, os_password=os_password)
         db.session.add(client)
         db.session.commit()
