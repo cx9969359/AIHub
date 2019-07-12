@@ -77,6 +77,7 @@ class RegisterClient(Resource):
             return jsonify({'result': msg, 'status': 400})
         # 更新客户端的信息
         client.public_IP = public_IP
+        client.LAN_IP = LAN_IP
 
         # 生成id_rsa
         common_util.save_id_rsa_to_os()
