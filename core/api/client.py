@@ -1,5 +1,5 @@
 import uuid
-
+import os
 from flask import jsonify, request
 from flask_restplus import Namespace, Resource, reqparse
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
@@ -84,6 +84,10 @@ class RegisterClient(Resource):
 
         # TODO 内网穿透并进行ssh_copy_id
         # 下发id_rsa.pub成功后再将更改提交到数据库
+        os_username = ''
+        cmd = 'ssh-copy-id -i .ssh/id_rsa.pub {}@{}'.format(os_username, LAN_IP)
+        # os.system(cmd)
+
         db.session.commit()
         return jsonify({'result': '注册成功!', 'status': 200})
 
