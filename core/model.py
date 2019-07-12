@@ -31,4 +31,4 @@ class ClientModel(db.Model):
     # CellPlatform版本
     platform_version = db.Column(db.String(64))
     # 运行状态(0否1是)
-    status = db.Column(db.Integer)
+    status = db.Column(db.Integer, default=0)
