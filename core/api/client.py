@@ -77,7 +77,7 @@ class RegisterClient(Resource):
         client.public_IP = public_IP
 
         # 生成id_rsa
-        common_util.generate_id_rsa()
+        common_util.save_id_rsa_to_os()
 
         # TODO 内网穿透并进行ssh_copy_id
         # 下发id_rsa.pub成功后再将更改提交到数据库
