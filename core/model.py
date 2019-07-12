@@ -23,7 +23,7 @@ class ClientModel(db.Model):
     # 公网IP
     public_IP = db.Column(db.String(32))
     # 内网IP
-    # LAN_IP = db.Column(db.String(32))
+    LAN_IP = db.Column(db.String(32))
     # 部署平台操作系统
     os = db.Column(db.String(32))
     # 计算模型版本

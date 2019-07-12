@@ -21,6 +21,7 @@ init_client.add_argument('platform_version', type=str)
 
 register_client = reqparse.RequestParser()
 register_client.add_argument('uuid', type=str, required=True)
+register_client.add_argument('LAN_IP', type=str, required=True)
 
 
 @api.route('/init')
@@ -61,10 +62,11 @@ class RegisterClient(Resource):
     def post(self):
         args = register_client.parse_args()
         uuid = args.uuid
+        LAN_IP = args.LAN_IP
         public_IP = request.remote_addr
-        # if not common_util.check_IP(public_IP):
-        #     msg = 'The LAN_IP is error, please entry again!'
-        #     return jsonify({'result': msg, 'status': 400})
+        if not common_util.check_IP(LAN_IP):
+            msg = 'The LAN_IP is error, please entry again!'
+            return jsonify({'result': msg, 'status': 400})
         try:
             client = ClientModel.query.filter_by(uuid=uuid).one()
         except NoResultFound:
