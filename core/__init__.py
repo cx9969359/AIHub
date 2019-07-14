@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 
 from config import Config
 from core.api import blueprint
@@ -13,5 +14,6 @@ def create_app():
     ai_hub.register_blueprint(blueprint)
 
     db.init_app(ai_hub)
+    CORS(ai_hub, resources=r'/*')
 
     return ai_hub
