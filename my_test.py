@@ -14,26 +14,4 @@ if __name__ == '__main__':
     # private = private_key.save_pkcs1()
     # with open('f:/.ssh/id_rsa', 'wb') as f:
     #     f.write(private)
-    import uuid
-    a = str(uuid.uuid1())
-    print(a)
-    # 使用paramiko
-    # ssh = paramiko.SSHClient()
-    # print(ssh)
-    #
-    # ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    # ssh.connect(hostname='192.168.23.23', port=22, username='root', password='1.23456')
-    # cmd = 'ps'
-    # stdin, stdout, stderr = ssh.exec_command(cmd)
-    # result = stdout.read()
-    # if not result:
-    #     result = stderr.read()
-    # ssh.close()
-    # print(result.decode())
-    #
-    # transport = paramiko.Transport(('192.168.23.23',22))
-    # transport.connect(username='root', password='1.23456')
-    # print(transport)
-    # sftp = paramiko.SFTPClient.from_transport(transport)
-    # sftp.get('/home/n2n/README.md', 'F:/n2n.txt')
-    # transport.close()
+    pass

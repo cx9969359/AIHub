@@ -1,4 +1,0 @@
-flask_sqlalchemy
-pymysql
-Flask-Migrate
-Flask-Script
