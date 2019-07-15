@@ -32,5 +32,9 @@ class ClientModel(db.Model):
     model_version = db.Column(db.String(64))
     # CellPlatform版本
     platform_version = db.Column(db.String(64))
+    # 是否已经注册(0否1是)
+    register = db.Column(db.Integer, default=0)
+    # 注册时间
+    register_date = db.Column(db.DateTime)
     # 运行状态(0否1是)
     status = db.Column(db.Integer, default=0)

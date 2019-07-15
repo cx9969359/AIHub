@@ -1,3 +1,4 @@
+import datetime
 import uuid
 
 from flask import jsonify, request
@@ -78,6 +79,10 @@ class RegisterClient(Resource):
         except MultipleResultsFound:
             msg = 'Multiple result found of this uuid: {}'.format(uuid)
             return jsonify({'result': msg, 'status': 400})
+        # 校验是否已经注册过
+        if client.register == 1:
+            msg = 'The client has registered'
+            return jsonify({'result': msg, 'status': 400})
         # 更新客户端的信息
         client.public_IP = public_IP
         client.LAN_IP = LAN_IP
@@ -91,6 +96,9 @@ class RegisterClient(Resource):
         cmd = 'ssh-copy-id -i .ssh/id_rsa.pub {}@{}'.format(os_username, LAN_IP)
         # os.system(cmd)
 
+        # 修改注册状态
+        client.register = 1
+        client.register_date = datetime.datetime.now()
         db.session.commit()
         return jsonify({'result': '注册成功!', 'status': 200})
 
@@ -106,3 +114,28 @@ class Client(Resource):
         all_client = serialize(all_client)
 
         return {'result': 'success', 'client_list': all_client}
+
+
+@api.route('/select')
+class SelectClient(Resource):
+    def get(self):
+        """
+        按条件筛选用户
+        :return:
+        """
+        args = request.args
+        condition = args.get('condition', '')
+        if not condition:
+            # 查询方法all返回list，不能链式调用，过滤
+            all_client = ClientModel.query.all()
+            all_client = serialize(all_client)
+            return {'result': 'success', 'client_list': all_client}
+        if condition == 'init':
+            client_set = ClientModel.query.filter_by(register=0).all()
+            client_set = serialize(client_set)
+            return {'result': 'success', 'client_list': client_set}
+        else:
+            # condition == 'register'
+            client_set = ClientModel.query.filter_by(register=1).all()
+            client_set = serialize(client_set)
+            return {'result': 'success', 'client_list': client_set}
