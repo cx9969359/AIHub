@@ -102,7 +102,7 @@ class RegisterClient(Resource):
 
         # 修改注册状态
         client.register = 1
-        client.register_date = time.time()
+        client.register_date = int(time.time())
         db.session.commit()
         return jsonify({'result': '注册成功!', 'status': 200})
 

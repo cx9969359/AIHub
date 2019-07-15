@@ -14,4 +14,6 @@ if __name__ == '__main__':
     import time
     print(time.time())
     a = time.time()
+    a = int(a)
+    print(a)
     print(type(a))
