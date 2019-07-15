@@ -1,4 +1,4 @@
-import datetime
+import time
 import uuid
 
 from flask import jsonify, request
@@ -68,20 +68,24 @@ class RegisterClient(Resource):
         uuid = args.uuid
         LAN_IP = args.LAN_IP
         public_IP = request.remote_addr
-        if not common_util.check_IP(LAN_IP):
-            msg = 'The LAN_IP is error, please entry again!'
-            return jsonify({'result': msg, 'status': 400})
         try:
             client = ClientModel.query.filter_by(uuid=uuid).one()
         except NoResultFound:
-            msg = 'The uuid is error, no such client!'
+            msg = 'UUID错误，没有该用户'
             return jsonify({'result': msg, 'status': 400})
         except MultipleResultsFound:
             msg = 'Multiple result found of this uuid: {}'.format(uuid)
             return jsonify({'result': msg, 'status': 400})
         # 校验是否已经注册过
         if client.register == 1:
-            msg = 'The client has registered'
+            msg = '该实例已注册，请勿重复注册'
+            return jsonify({'result': msg, 'status': 400})
+        # 校验局域网IP
+        if not common_util.check_IP(LAN_IP):
+            msg = '局域网IP格式有误，请重新输入'
+            return jsonify({'result': msg, 'status': 400})
+        if ClientModel.query.filter_by(LAN_IP=LAN_IP).count() > 0:
+            msg = '该局域网IP({})已被注册，请重新输入'.format(LAN_IP)
             return jsonify({'result': msg, 'status': 400})
         # 更新客户端的信息
         client.public_IP = public_IP
@@ -98,7 +102,7 @@ class RegisterClient(Resource):
 
         # 修改注册状态
         client.register = 1
-        client.register_date = datetime.datetime.now()
+        client.register_date = time.time()
         db.session.commit()
         return jsonify({'result': '注册成功!', 'status': 200})
 

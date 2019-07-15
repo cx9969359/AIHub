@@ -34,7 +34,7 @@ class ClientModel(db.Model):
     platform_version = db.Column(db.String(64))
     # 是否已经注册(0否1是)
     register = db.Column(db.Integer, default=0)
-    # 注册时间
-    register_date = db.Column(db.DateTime)
+    # 注册时间（时间戳）
+    register_date = db.Column(db.Float, default=0)
     # 运行状态(0否1是)
     status = db.Column(db.Integer, default=0)

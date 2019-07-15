@@ -11,4 +11,7 @@ if __name__ == '__main__':
     # print(stdout.read())
     # ssh.close()
     import datetime
-    print(datetime.datetime.now())
+    import time
+    print(time.time())
+    a = time.time()
+    print(type(a))

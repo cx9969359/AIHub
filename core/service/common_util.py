@@ -44,7 +44,7 @@ def generate_id_rsa():
     (pub_key, private_key) = rsa.newkeys(2048)
     str_pub_key = pub_key.save_pkcs1()
     str_private_key = private_key.save_pkcs1()
-    with open('/root/.ssh/id_rsa.pub', 'wb')as f:
-        f.write(str_pub_key)
-    with open('id_rsa', 'wb') as f:
-        f.write(str_private_key)
+    # with open('/root/.ssh/id_rsa.pub', 'wb')as f:
+    #     f.write(str_pub_key)
+    # with open('/root/.ssh/id_rsa', 'wb') as f:
+    #     f.write(str_private_key)
